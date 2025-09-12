@@ -1,49 +1,43 @@
-import imaplib
-import email
+import os
+from datetime import datetime
+
+import django
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "nextjs_ticketing_system.settings")
+django.setup()
+
+from imap_tools import MailBox, AND
+from emails.models import EmailMessages
+
+def fetch_email_info():
+    # Create IMAP client 
+    #Credentials 
+    email = 'amrstestemail4dev@gmail.com'
+    passwrd = 'kebi djni kgav dymk'
+
+    try: 
+
+        mailbox = MailBox('imap.gmail.com') # Specify which email server its coming from 
+        mailbox.login(email, passwrd, 'INBOX') # Check Inbox for emails
+        sorted_emails = sorted(mailbox.fetch(), key=lambda msg:msg.date, reverse=True) # sort the list of emails in reverse order
+        latest_email = sorted_emails[0] # get the first element of the list (latest email that was sent to us)
+        # Write the email in a text file
+        file_name = f"email_{latest_email.uid}.txt" 
+        filepath = os.path.join("D:/Desktop/nexjts-ticketing-system/recievedmails", file_name)
+        content_of_file = latest_email.date, latest_email.from_, latest_email.subject, latest_email.text # some data for the email
+        # TODO: Put email information into database table instead just writing it into file
+        EmailMessages.objects.create(
+                mail_date = latest_email.date,
+                mail_from = latest_email.from_,
+                mail_subject = latest_email.subject,
+                mail_text = latest_email.text or latest_email.html
+            ) 
+        # --------------------------------------------------------------------------------
+        with open(filepath, "w") as f: 
+                f.write(str(content_of_file))
+        print(f"Email {latest_email.uid} saved to {filepath}") 
+        mailbox.logout()
+        print("latest email was: ", latest_email)
+    except Exception as e: 
+        print(f"An error occured: {e}")
 
 
-#Create IMAP4_SSL class instance
-imap = imaplib.IMAP4_SSL("imap.gmail.com")
-
-#login with credentials
-username = "amrstestemail4dev@gmail.com"
-password = "kebi djni kgav dymk" #app password
-imap.login(username, password)
-
-# Select mailbox
-
-imap.select('Inbox')
-
-#Search for emails
-status, email_ids = imap.search(None, 'ALL')
-#email ids is a bytes object, decode and split for singular ids
-email_id_list = email.ids[0].split()
-#Get latest email 
-latest_mail_id = email_id_list[-1]
-status, msg_data = imap.fetch(latest_mail_id, '(RFC822)')
-raw_email = msg_data[0][1]
-
-#Parse raw email into message object
-msg = email.message_from_bytes(raw_email)
-
-#Extract the body
-body = ""
-if msg.is_multipart():
-    for part in msg.walk():
-        ctype = part.get_content_type()
-        cdispo = str(part.get('Content-Disposition'))
-
-        #Look for plain text or HTML parts that are not attachments
-        if (ctype == 'text/plain' or ctype == 'text/html') and 'attachment':
-            try:
-                body = part.get_payload(decode=True).decode()
-                break # Found body, leave loop
-            except Exception as e: 
-                print(f"Error decoding part: {e}")
-        else:
-            try: 
-                body = msg.get_payload(decode=True).decode()
-            except Exception as e:
-                print(f"Error decoding single part message: {e}")
-
-print(body)
