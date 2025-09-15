@@ -7,4 +7,4 @@ class EmailMessages(models.Model):
     mail_subject = models.CharField(max_length=200)
     mail_text = models.CharField(max_length=1000)
     def __str__(self):
-        return f"{self.subject} from {self.sender}"
+        return f"{self.mail_subject} from {self.mail_from}"
