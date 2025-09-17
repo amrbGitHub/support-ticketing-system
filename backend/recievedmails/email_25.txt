@@ -1,0 +1,1 @@
+(datetime.datetime(2025, 9, 12, 13, 21, 15, tzinfo=datetime.timezone(datetime.timedelta(seconds=10800))), 'amrbelbeisi002@gmail.com', 'Python test', 'Hello,\r\nThis is a test email for IMAP python, if you get this on the terminal, that\r\nmeans it has worked.\r\n')
