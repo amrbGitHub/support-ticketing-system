@@ -39,7 +39,13 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
-    "corsheaders"
+    "corsheaders",
+    'django_crontab',
+]
+
+CRONJOBS = [
+    # run every 5 minutes
+    ('*/5 * * * *', 'emails.cron.fetch_email_info'),
 ]
 
 MIDDLEWARE = [

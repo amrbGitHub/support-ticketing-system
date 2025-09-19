@@ -14,41 +14,48 @@ RED = '\033[91m'
 END = '\033[0m'
 
 def fetch_email_info():
-    # Create IMAP client 
-    #Credentials 
     email = 'amrstestemail4dev@gmail.com'
     passwrd = 'kebi djni kgav dymk'
-    global didfetch # Not the best practice but oh well ^_^
+    didfetch = False  # start as False
 
-    try: 
+    try:
+        with MailBox('imap.gmail.com').login(email, passwrd, 'INBOX') as mailbox:
+            sorted_emails = sorted(mailbox.fetch(), key=lambda msg: msg.date, reverse=True)
 
-        mailbox = MailBox('imap.gmail.com') # Specify which email server its coming from 
-        mailbox.login(email, passwrd, 'INBOX') # Check Inbox for emails
-        sorted_emails = sorted(mailbox.fetch(), key=lambda msg:msg.date, reverse=True) # sort the list of emails in reverse order
-        latest_email = sorted_emails[0] # get the first element of the list (latest email that was sent to us)
-        # Write the email in a text file
-        file_name = f"email_{latest_email.uid}.txt" 
-        filepath = os.path.join("recievedmails", file_name)
-        content_of_file = latest_email.date, latest_email.from_, latest_email.subject, latest_email.text # some data for the email
-        # TODO: Put email information into database table instead just writing it into file
-        
-        #if the object already exists, do not create a new one, else do create a new one
-        if EmailMessages.objects.filter(mail_from=latest_email.from_).exists():
-            print(RED + "Object already exists in Database" + END)
-            didfetch = False
-        else:
-            EmailMessages.objects.create(
-                    mail_date = latest_email.date,
-                    mail_from = latest_email.from_,
-                    mail_subject = latest_email.subject,
-                    mail_text = latest_email.text or latest_email.html
-                ) 
-            didfetch = True
-        # --------------------------------------------------------------------------------S
-        mailbox.logout()
-        print("latest email was: ", latest_email)
-    except Exception as e: 
-        print(f"An error occured: {e}")
+            latest_saved = EmailMessages.objects.order_by("-mail_date").first()
+            last_date = latest_saved.mail_date if latest_saved else None
+
+            if last_date:
+                new_emails = [msg for msg in sorted_emails if msg.date > last_date]
+            else:
+                new_emails = sorted_emails
+
+            if not new_emails:
+                print(RED + "No new emails found" + END)
+            else:
+                for msg in new_emails:
+                    if not EmailMessages.objects.filter(
+                        mail_from=msg.from_,
+                        mail_subject=msg.subject,
+                        mail_date=msg.date
+                    ).exists():
+                        EmailMessages.objects.create(
+                            mail_date=msg.date,
+                            mail_from=msg.from_,
+                            mail_subject=msg.subject,
+                            mail_text=msg.text or msg.html
+                        )
+                        print(f"Saved new email: {msg.subject} from {msg.from_}")
+                        didfetch = True
+                    else:
+                        print(RED + f"Duplicate skipped: {msg.subject}" + END)
+
+        print("Last saved email in DB was:", latest_saved)
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        didfetch = False
+
     return didfetch
+
 
 
