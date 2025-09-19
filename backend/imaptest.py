@@ -44,10 +44,7 @@ def fetch_email_info():
                     mail_text = latest_email.text or latest_email.html
                 ) 
             didfetch = True
-        # --------------------------------------------------------------------------------
-        with open(filepath, "w") as f: 
-                f.write(str(content_of_file))
-        print(f"Email {latest_email.uid} saved to {filepath}") 
+        # --------------------------------------------------------------------------------S
         mailbox.logout()
         print("latest email was: ", latest_email)
     except Exception as e: 
