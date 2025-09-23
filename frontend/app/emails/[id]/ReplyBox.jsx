@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-
+import CompleteBox from "./CompleteButton";
 export default function ReplyBox() {
   const [message, setMessage] = useState("");
 
@@ -13,7 +13,9 @@ export default function ReplyBox() {
         placeholder="Write a reply here..."
         className="w-full h-28 border rounded-md p-3 text-sm text-gray-700 resize-none focus:ring-2 focus:ring-blue-400 mb-3"
       />
+     
       <div className="flex gap-2">
+       
         <button
           type="button"
           className="bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700 transition"
@@ -28,6 +30,9 @@ export default function ReplyBox() {
         >
           Cancel
         </button>
+        <div className="flex justify-end">
+         <CompleteBox/>
+      </div>
       </div>
     </div>
   );

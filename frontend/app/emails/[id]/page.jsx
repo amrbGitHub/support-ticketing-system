@@ -21,7 +21,11 @@ export default async function EmailDetail({ params }) {
           <strong>Date:</strong>{" "}
           {new Date(email.mail_date).toLocaleString()}
         </p>
-
+        <div className="border rounded-md p-4 bg-gray-300">
+        <p className="text-sm text-black mb-4">
+            <strong>Body: </strong>{email.mail_text}
+        </p>
+        </div>
        <ReplyBox />
 
         <Link

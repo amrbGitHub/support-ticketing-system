@@ -48,6 +48,17 @@ CRONJOBS = [
     ('*/5 * * * *', 'emails.cron.fetch_email_info'),
 ]
 
+DATABASES = {
+        'default': {
+            'ENGINE': '',
+            'HOST' : '',
+            'NAME' : '',
+            'USER' : '',
+            'PORT' : '',
+            'PASSWORD' : '',
+        }
+}
+
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
