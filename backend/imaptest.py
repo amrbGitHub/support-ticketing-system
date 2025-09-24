@@ -45,6 +45,7 @@ def fetch_email_info():
                             mail_from=msg.from_,
                             mail_subject=msg.subject,
                             mail_text=msg.text or msg.html
+                            
                         )
                         print(f"Saved new email: {msg.subject} from {msg.from_}")
                         didfetch = True

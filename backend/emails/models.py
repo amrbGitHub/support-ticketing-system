@@ -8,3 +8,6 @@ class EmailMessages(models.Model):
     mail_text = models.CharField(max_length=1000)
     def __str__(self):
         return f"{self.mail_subject} from {self.mail_from}"
+    mail_in_reply_to = models.CharField(max_length=255, null=True, blank=True)
+    mail_message_id = models.CharField(max_length=255, null=True, blank=True)
+# Ticket Model,
