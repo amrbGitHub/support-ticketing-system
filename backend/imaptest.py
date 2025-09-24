@@ -19,17 +19,18 @@ def fetch_email_info():
     didfetch = False  # start as False
 
     try:
-        with MailBox('imap.gmail.com').login(email, passwrd, 'INBOX') as mailbox:
-            sorted_emails = sorted(mailbox.fetch(), key=lambda msg: msg.date, reverse=True)
+        with MailBox('imap.gmail.com').login(email, passwrd, 'INBOX') as mailbox: 
+            sorted_emails = sorted(mailbox.fetch(), key=lambda msg: msg.date, reverse=True) # sorts emails in reserve order
 
-            latest_saved = EmailMessages.objects.order_by("-mail_date").first()
+            # checks latest email saved via the date of the email
+            latest_saved = EmailMessages.objects.order_by("-mail_date").first() 
             last_date = latest_saved.mail_date if latest_saved else None
 
             if last_date:
-                new_emails = [msg for msg in sorted_emails if msg.date > last_date]
+                new_emails = [msg for msg in sorted_emails if msg.date > last_date] # retrieves every email from lastest date
             else:
                 new_emails = sorted_emails
-
+            # if not new emails, then show false output in console, else store new emails in db
             if not new_emails:
                 print(RED + "No new emails found" + END)
             else:

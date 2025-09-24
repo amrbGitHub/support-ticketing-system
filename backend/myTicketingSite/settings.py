@@ -20,8 +20,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-f8_ts1g^g)#on7bx)k#=$%in!7gps*m50^sb0=5+1mhjtec6vb"
-
+import os
+from dotenv import load_dotenv
+load_dotenv()
+SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -48,16 +50,7 @@ CRONJOBS = [
     ('*/5 * * * *', 'emails.cron.fetch_email_info'),
 ]
 
-DATABASES = {
-        'default': {
-            'ENGINE': '',
-            'HOST' : '',
-            'NAME' : '',
-            'USER' : '',
-            'PORT' : '',
-            'PASSWORD' : '',
-        }
-}
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -98,12 +91,22 @@ WSGI_APPLICATION = "myTicketingSite.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+load_dotenv()
+
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        'default' : {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'HOST' : 'aws-1-us-east-2.pooler.supabase.com',
+            'NAME': 'postgres',
+            'USER': 'postgres.ceieiteueeoehrgdnlvs',
+            'PORT' : '5432',
+            'PASSWORD': os.getenv('DB_PASSWORD'),
+            'OPTIONS' : {
+                'sslmode': 'require'
+            },
+
+        }
     }
-}
 
 
 # Password validation
