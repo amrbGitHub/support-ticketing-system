@@ -1,26 +1,30 @@
 import os
+import re
 from datetime import datetime
 
 import django
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "nextjs_ticketing_system.settings")
 django.setup()
+from django.conf import settings
 
 from imap_tools import MailBox, AND
-from emails.models import EmailMessages
+from emails.models import EmailMessages, EmailReply
 
 # For exists message
 
 RED = '\033[91m'
 END = '\033[0m'
 
+TICKET_RE = re.compile(r"\[Ticket\s*#\s*(\d+)\]", re.IGNORECASE)
+
 def fetch_email_info():
     email = 'amrstestemail4dev@gmail.com'
-    passwrd = 'kebi djni kgav dymk'
+    passwrd = settings.EMAIL_IMAP_PASSWORD
     didfetch = False  # start as False
 
     try:
         with MailBox('imap.gmail.com').login(email, passwrd, 'INBOX') as mailbox: 
-            sorted_emails = sorted(mailbox.fetch(), key=lambda msg: msg.date, reverse=True) # sorts emails in reserve order
+            sorted_emails = sorted(mailbox.fetch(), key=lambda msg: msg.date) # sorts emails in order
 
             # checks latest email saved via the date of the email
             latest_saved = EmailMessages.objects.order_by("-mail_date").first() 
@@ -35,6 +39,22 @@ def fetch_email_info():
                 print(RED + "No new emails found" + END)
             else:
                 for msg in new_emails:
+                    subject = (msg.subject or "").strip()
+                    # check if subject contains same ticket number
+                    match = TICKET_RE.search(subject)
+                    if match:
+                        ticket_id = int(match.group(1))
+                        parent = EmailMessages.objects.filter(pk=ticket_id).first()
+                        if parent: 
+                            EmailReply.objects.create(
+                                ticket = parent,
+                                reply_text=msg.text or msg.html,
+                                reply_from=msg.from_,
+                                reply_to=parent.mail_from,
+                            )
+                            print(f"Attached to Ticket #{ticket_id}: {subject}")
+                            didfetch = True
+                            continue
                     if not EmailMessages.objects.filter(
                         mail_from=msg.from_,
                         mail_subject=msg.subject,
@@ -58,6 +78,5 @@ def fetch_email_info():
         didfetch = False
 
     return didfetch
-
 
 

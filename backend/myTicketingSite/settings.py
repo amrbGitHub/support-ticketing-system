@@ -26,7 +26,13 @@ load_dotenv()
 SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'amrstestemail4dev@gmail.com' 
+EMAIL_HOST_PASSWORD = 'apln uumy etdw bodj'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_IMAP_PASSWORD = 'kebi djni kgav dymk'
 ALLOWED_HOSTS = []
 
 
@@ -43,11 +49,6 @@ INSTALLED_APPS = [
     "rest_framework",
     "corsheaders",
     'django_crontab',
-]
-
-CRONJOBS = [
-    # run every 5 minutes
-    ('*/5 * * * *', 'emails.cron.fetch_email_info'),
 ]
 
 
@@ -107,6 +108,8 @@ DATABASES = {
 
         }
     }
+
+
 
 
 # Password validation
