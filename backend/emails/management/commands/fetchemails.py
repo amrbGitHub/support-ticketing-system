@@ -8,4 +8,4 @@ class Command(BaseCommand):
         if fetch_email_info() == True:
             self.stdout.write(self.style.SUCCESS("Emails Fetch with Success"))
         else: 
-            self.stdout.write(self.style.ERROR("Emais Did Not Fetch With Success"))
+            self.stdout.write(self.style.ERROR("Emails Did Not Fetch With Success"))

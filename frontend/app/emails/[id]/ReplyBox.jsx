@@ -64,6 +64,7 @@ export default function ReplyBox({ ticketId }) {
         >
           Cancel
         </button>
+            <CompleteBox ticketId={ticketId}/>
       </div>
     </div>
   );

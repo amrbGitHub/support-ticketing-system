@@ -9,7 +9,6 @@ class EmailMessages(models.Model):
         max_length=20, 
         choices=[
             ('open', 'Open'),
-            ('in_progress', 'In Progress'),
             ('closed', 'Closed'),
         ],
         default='open'

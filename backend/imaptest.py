@@ -43,15 +43,23 @@ def fetch_email_info():
                     ticket_id = int(match.group(1))
                     parent = EmailMessages.objects.filter(ticket_number=ticket_id).first()
                     if parent:
-                        EmailReply.objects.create(
+                        if not EmailReply.objects.filter(
                             ticket=parent,
-                            reply_text=msg.text or msg.html,
                             reply_from=msg.from_,
-                            reply_to=parent.mail_from,
-                        )
-                        print(f"Attached to Ticket #{ticket_id}: {subject}")
-                        didfetch = True
+                            reply_text=msg.text or msg.html,
+                        ).exists():
+                            EmailReply.objects.create(
+                                ticket=parent,
+                                reply_text=msg.text or msg.html,
+                                reply_from=msg.from_,
+                                reply_to=parent.mail_from,
+                            )
+                            print(f"Attached to Ticket #{ticket_id}: {subject}")
+                            didfetch = True
+                        else:
+                            print(RED + f"Duplicate reply skipped for Ticket #{ticket_id}" + END)
                         continue
+
 
                 # No ticket number, create new ticket
                 if not EmailMessages.objects.filter(

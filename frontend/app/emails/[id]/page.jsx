@@ -16,6 +16,15 @@ export default async function EmailDetail({ params }) {
         <h1 className="text-xl font-bold text-gray-800 mb-4">
           [Ticket #{email.ticket_number}] {email.mail_subject}
         </h1>
+            <p
+                className={`inline-block px-3 py-1 rounded-full text-xs font-medium mb-4 ${
+                email.status === "open"
+                  ? "bg-yellow-200 text-yellow-800"
+                  : "bg-green-300 text-green-800"
+              }`}
+            >
+              {email.status}
+            </p>
 
         <p className="text-sm text-gray-600 mb-2">
           <strong>From:</strong> {email.mail_from}
