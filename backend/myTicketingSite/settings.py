@@ -27,7 +27,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'amrstestemail4dev@gmail.com' 
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST') 
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_SMTP_PASSWORD")
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
@@ -99,7 +99,7 @@ DATABASES = {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
             'HOST' : 'aws-1-us-east-2.pooler.supabase.com',
             'NAME': 'postgres',
-            'USER': 'postgres.ceieiteueeoehrgdnlvs',
+            'USER': os.getenv('DB_USER'),
             'PORT' : '5432',
             'PASSWORD': os.getenv('DB_PASSWORD'),
             'OPTIONS' : {
@@ -136,7 +136,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "Europe/Istanbul"
+TIME_ZONE = "Asia/Amman"
 
 USE_I18N = True
 
