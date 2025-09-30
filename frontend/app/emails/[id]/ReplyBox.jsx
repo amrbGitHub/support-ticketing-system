@@ -64,8 +64,6 @@ export default function ReplyBox({ ticketId }) {
         >
           Cancel
         </button>
-
-      
       </div>
     </div>
   );

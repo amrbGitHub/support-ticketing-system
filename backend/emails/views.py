@@ -6,15 +6,6 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from .models import EmailMessages, EmailReply
-@api_view
-def mark_complete(request, pk):
-    try:
-        ticket = EmailMessages.objects.get(pk=pk)
-        ticket.status = 'closed'
-        ticket.save(update_fields=["status"])
-        return Response({"success": f"Ticket #{ticket.ticket_number} closed"})
-    except EmailMessages.DoesNotExist:
-        return Response({"error": "Ticket not found"},status=404)
 class ReplyView(APIView):
     def post(self, request, pk):
         try:

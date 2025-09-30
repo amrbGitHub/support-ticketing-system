@@ -31,12 +31,5 @@ class EmailReply(models.Model):
     reply_from = models.CharField(max_length=255, default='amrstestemail4dev@gmail.com') # support email
     reply_to = models.CharField(max_length=255) # customer email
     reply_text = models.TextField()
-
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        # update ticket status if its not closed
-        if self.ticket.status != "closed":
-            self.ticket.status ="in_progress"
-            self.ticket.save(update_fields=["status"])
     def __str__(self):
         return f"Reply to {self.ticket.id} at {self.reply_date}"
