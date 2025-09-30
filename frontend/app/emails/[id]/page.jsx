@@ -19,8 +19,8 @@ export default async function EmailDetail({ params }) {
             <p
                 className={`inline-block px-3 py-1 rounded-full text-xs font-medium mb-4 ${
                 email.status === "open"
-                  ? "bg-yellow-200 text-yellow-800"
-                  : "bg-green-300 text-green-800"
+                  ? "bg-green-200 text-green-800"
+                  : "bg-gray-300 text-gray-800"
               }`}
             >
               {email.status}
