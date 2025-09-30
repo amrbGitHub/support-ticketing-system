@@ -1,1 +1,0 @@
-(datetime.datetime(2025, 9, 19, 11, 54, 27, tzinfo=datetime.timezone(datetime.timedelta(seconds=7200))), 'artypicky@gmail.com', 'Good app', 'Hello Amr,\r\n\r\nThis is a good app.\r\n\r\nYours truly,\r\nTimo\r\n')
