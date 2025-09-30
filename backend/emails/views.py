@@ -6,6 +6,9 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from .models import EmailMessages, EmailReply
+from django.conf import settings
+
+host_email = settings.EMAIL_HOST_USER
 class ReplyView(APIView):
     def post(self, request, pk):
         try:
@@ -29,7 +32,7 @@ class ReplyView(APIView):
             email = EmailMessage(
                 subject=injected_subject,
                 body=reply_text,
-                from_email="amrstestemail4dev@gmail.com",  # your support address
+                from_email=host_email,  # your support address
                 to=[ticket.mail_from],
             )
             email.send()
@@ -40,7 +43,7 @@ class ReplyView(APIView):
         EmailReply.objects.create(
             ticket=ticket,
             reply_text=reply_text,
-            reply_from="amrstestemail4dev@gmail.com",
+            reply_from=host_email,
             reply_to=ticket.mail_from,
         )
 
