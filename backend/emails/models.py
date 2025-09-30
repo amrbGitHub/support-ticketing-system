@@ -1,4 +1,7 @@
+from django.conf import settings
 from django.db import models
+
+host_email = settings.EMAIL_HOST_USER
 # Create your models here.
 class EmailMessages(models.Model):
     mail_date = models.DateTimeField("date sent")
@@ -27,7 +30,7 @@ class EmailReply(models.Model):
     ticket = models.ForeignKey(EmailMessages, related_name='replies', on_delete=models.CASCADE)
     reply_text = models.CharField(max_length=255)
     reply_date = models.DateTimeField(auto_now_add=True)
-    reply_from = models.CharField(max_length=255, default='amrstestemail4dev@gmail.com') # support email
+    reply_from = models.CharField(max_length=255, default=host_email) # support email
     reply_to = models.CharField(max_length=255) # customer email
     reply_text = models.TextField()
     def __str__(self):
