@@ -12,4 +12,4 @@ Database - Supabase (PostgreSQL)
 <img width="1919" height="910" alt="image" src="https://github.com/user-attachments/assets/c9997f83-9450-4f6f-b4d4-587617a1c21f" />
 
 > [!WARNING]
-> This information is provided "as is" without any representations or warranties, express or implied.
+> This project is still being worked on and is not yet complete, bear in mind some features may be missing or incomplete.
