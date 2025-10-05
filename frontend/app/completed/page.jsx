@@ -1,7 +1,7 @@
 import Link from "next/link";
-import {FetchTickets} from "@/lib/api";
+import {FetchTickets} from "../lib/api";
 export default async function CompletedTickets() {
-  const ticket = await FetchTickets();
+  const tickets = await FetchTickets();
 
   // filter closed tickets
   const completedTickets = tickets.filter((t) => t.status === "closed");
