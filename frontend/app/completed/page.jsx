@@ -4,8 +4,9 @@ export default async function CompletedTickets() {
   const tickets = await FetchTickets();
 
   // filter closed tickets
-  const completedTickets = tickets.filter((t) => t.status === "closed");
-
+const completedTickets = (tickets || []).filter(
+  (t) => t.status === "closed"
+);
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-4">Completed Tickets</h1>
