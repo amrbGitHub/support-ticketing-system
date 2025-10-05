@@ -33,7 +33,7 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_IMAP_PASSWORD = os.getenv("EMAIL_IMAP_PASSWORD")
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["your-app.onrender.com", "localhost", "127.0.0.1"]
 
 
 # Application definition
@@ -66,7 +66,8 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
-    "http://127.0.0.1:3000"
+    "http://127.0.0.1:3000",
+    "https://myapp.vercel.app",
 ]
 
 ROOT_URLCONF = "myTicketingSite.urls"

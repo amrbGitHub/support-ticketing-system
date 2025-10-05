@@ -1,11 +1,8 @@
 import Link from "next/link";
-
+import {FetchTickets} from "@/lib/api";
 export default async function ActiveTickets() {
-  const res = await fetch("http://127.0.0.1:8000/api/emails/", {
-    cache: "no-store",
-  });
-  const tickets = await res.json();
 
+  const tickets = await FetchTickets();
   // filter open tickets
   const activeTickets = tickets.filter((t) => t.status === "open");
 
