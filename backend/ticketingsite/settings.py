@@ -67,7 +67,7 @@ MIDDLEWARE = [
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
-    "https://myapp.vercel.app",
+    "https://support-ticketing-system-oy3l.vercel.app",
 ]
 
 ROOT_URLCONF = "ticketingsite.urls"
