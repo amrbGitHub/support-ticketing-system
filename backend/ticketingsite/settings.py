@@ -33,7 +33,7 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_IMAP_PASSWORD = os.getenv("EMAIL_IMAP_PASSWORD")
-ALLOWED_HOSTS = ["your-app.onrender.com", "localhost", "127.0.0.1"]
+ALLOWED_HOSTS = ["support-ticketing-system-y3y5.onrender.com", "localhost", "127.0.0.1"]
 
 
 # Application definition
