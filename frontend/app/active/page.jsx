@@ -1,5 +1,5 @@
 import Link from "next/link";
-import {FetchTickets} from "../../lib/api";
+import {FetchTickets} from "../lib/api";
 export default async function ActiveTickets() {
 
   const tickets = await FetchTickets();
