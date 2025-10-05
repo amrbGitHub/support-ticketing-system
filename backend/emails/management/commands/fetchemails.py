@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from imaptest import fetch_email_info
+from ticketingsite.imaptest import fetch_email_info
 
 class Command(BaseCommand):
     help = "Fetch the email info from IMAP server and then add them to the DB"

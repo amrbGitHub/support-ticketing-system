@@ -1,4 +1,5 @@
 import os
+from dotenv import load_dotenv
 import re
 from datetime import datetime
 
@@ -11,13 +12,13 @@ from emails.models import EmailMessages, EmailReply
 
 RED = '\033[91m'
 END = '\033[0m'
-
+load_dotenv()
 # Regex to detect [Ticket #123]
 TICKET_RE = re.compile(r"\[Ticket\s*#\s*(\d+)\]", re.IGNORECASE)
 
 def fetch_email_info():
     email = 'amrstestemail4dev@gmail.com'
-    passwrd = 'kebi djni kgav dymk'
+    passwrd = os.getenv('EMAIL_IMAP_PASSWORD')
     didfetch = False
 
     try:

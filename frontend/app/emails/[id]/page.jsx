@@ -1,11 +1,11 @@
 import Link from "next/link";
 import ReplyBox from "./ReplyBox";
-
+import { FetchTickets } from "../../utils/api";
 export default async function EmailDetail({ params }) {
   
   const ticketId = String(params.id);
-
-  const res = await fetch(`http://127.0.0.1:8000/api/emails/${ticketId}/`, {
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
+  const res = await fetch(`${API_URL}/api/emails`, {
     cache: "no-store",
   });
   const email = await res.json();
